@@ -32,12 +32,12 @@ if uploaded_file:
             count = 0
             for _, row in data.iterrows():
                 # Centralize the text with cell width equal to the page width
-                pdf.cell(0, 10, txt=f"Attn Principal: {row['Name of Principal']}", ln=True, align="C")
-                pdf.cell(0, 10, txt=f"School: {row['Name of School']}", ln=True, align="C")
-                pdf.cell(0, 10, txt=f"Coordinator: {row['Coordinator Name']}", ln=True, align="C")
-                pdf.cell(0, 10, txt=f"Address: {row['Address']}", ln=True, align="C")
-                pdf.cell(0, 10, txt=f"Contact: {row['Contact Number']}", ln=True, align="C")
-                pdf.cell(0, 10, txt=f"Total Participants: {row['Total Number of Participants']}", ln=True, align="C")
+                pdf.cell(0, 10, txt=f"Attn Principal: {row['Name of Principal']}", ln=True, align="L")
+                pdf.cell(0, 10, txt=f"School: {row['Name of School']}", ln=True, align="L")
+                pdf.cell(0, 10, txt=f"Coordinator: {row['Coordinator Name']}", ln=True, align="L")
+                pdf.cell(0, 10, txt=f"Address: {row['Address']}", ln=True, align="L")
+                pdf.cell(0, 10, txt=f"Contact: {row['Contact Number']}", ln=True, align="L")
+                pdf.cell(0, 10, txt=f"Total Participants: {row['Total Number of Participants']}", ln=True, align="L")
                 pdf.cell(0, 10, txt=" ", ln=True)  # Empty line for spacing
                 count += 1
 
