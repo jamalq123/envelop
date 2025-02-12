@@ -5,7 +5,7 @@ import tempfile
 
 # Streamlit app setup
 st.title("Generate Address Labels PDF")
-st.write("Upload an Excel file with columns: Name, Name of School, Coordinator Name, Address, Contact Number.")
+st.write("Upload an Excel file with columns: Name of Principal, Name of School, Coordinator Name, Address, Contact Number, Total Number of Participants.")
 
 # Upload Excel file
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx", "xls"])
@@ -19,7 +19,7 @@ if uploaded_file:
     st.dataframe(df)
 
     # Check if required columns are present
-    required_columns = ["Name", "Name of School", "Coordinator Name", "Address", "Contact Number"]
+    required_columns = ["Name of Principal", "Name of School", "Coordinator Name", "Address", "Contact Number", "Total Number of Participants"]
     if all(col in df.columns for col in required_columns):
         
         # Function to generate the PDF
@@ -32,11 +32,12 @@ if uploaded_file:
             count = 0
             for _, row in data.iterrows():
                 # Centralize the text with cell width equal to the page width
-                pdf.cell(0, 10, txt=f"Name: {row['Name']}", ln=True, align="C")
+                pdf.cell(0, 10, txt=f"Attn Principal: {row['Name of Principal']}", ln=True, align="C")
                 pdf.cell(0, 10, txt=f"School: {row['Name of School']}", ln=True, align="C")
                 pdf.cell(0, 10, txt=f"Coordinator: {row['Coordinator Name']}", ln=True, align="C")
                 pdf.cell(0, 10, txt=f"Address: {row['Address']}", ln=True, align="C")
                 pdf.cell(0, 10, txt=f"Contact: {row['Contact Number']}", ln=True, align="C")
+                pdf.cell(0, 10, txt=f"Total Participants: {row['Total Number of Participants']}", ln=True, align="C")
                 pdf.cell(0, 10, txt=" ", ln=True)  # Empty line for spacing
                 count += 1
 
