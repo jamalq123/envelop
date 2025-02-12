@@ -1,6 +1,4 @@
 streamlit
-langchain_core
-langchain_community
-langchain_ollama
-pypdf
-faiss-cpu
+pandas
+fpdf
+tempfile
