@@ -2,6 +2,13 @@ import pandas as pd
 import streamlit as st
 from fpdf import FPDF
 import tempfile
+import re
+
+# Function to remove or replace non-ASCII characters
+def clean_text(text):
+    if pd.isna(text):  # Check for NaN values
+        return ""
+    return re.sub(r'[^\x00-\x7F]+', ' ', str(text))  # Replace Unicode with space
 
 # Streamlit app setup
 st.title("Generate Address Labels PDF")
@@ -12,8 +19,13 @@ uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx", "xls"])
 
 if uploaded_file:
     # Read the Excel file
-    df = pd.read_excel(uploaded_file)
+    df = pd.read_excel(uploaded_file, dtype=str)  # Ensure all columns are treated as text
+    df = df.fillna("")  # Replace NaN values with empty strings
     
+    # Apply cleaning function to all text columns
+    for col in df.columns:
+        df[col] = df[col].apply(clean_text)
+
     # Display the uploaded data
     st.write("Preview of Uploaded Data:")
     st.dataframe(df)
@@ -27,11 +39,10 @@ if uploaded_file:
             pdf = FPDF()
             pdf.set_auto_page_break(auto=True, margin=15)
             pdf.add_page()
-            pdf.set_font("Arial", size=12)
+            pdf.set_font("Arial", size=12)  # Standard font (handles only ASCII)
 
             count = 0
             for _, row in data.iterrows():
-                # Centralize the text with cell width equal to the page width
                 pdf.cell(0, 10, txt=f"Attn Principal: {row['Name of Principal']}", ln=True, align="L")
                 pdf.cell(0, 10, txt=f"School: {row['Name of School']}", ln=True, align="L")
                 pdf.cell(0, 10, txt=f"Coordinator: {row['Coordinator Name']}", ln=True, align="L")
